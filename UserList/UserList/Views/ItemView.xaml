@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UserList.Views.ItemView" 
+             Title="Novo Cadastro">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salvar" Command="{Binding Save}" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="14">
+
+        <Label Text="Nome" />
+        <Entry Text="{Binding Item.Name}" />
+
+        <Label Text="Sobrenome" />
+        <Entry Text="{Binding Item.Surname}" />
+
+        <Label Text="Data de Nascimento" />
+        <DatePicker Date="{Binding Item.Due}" />
+
+        <Label Text="Sexo" />
+        <Entry Text="{Binding Item.Generous}" />
+
+        <Label Text="Endereço" />
+        <Entry Text="{Binding Item.Adress}" />
+
+        <Label Text="UF" />
+        <Entry Text="{Binding Item.Country}" />
+
+        <StackLayout Orientation="Horizontal">
+            <Switch IsToggled="{Binding Item.Completed}" />
+            <Label Text="Finalizado" />
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

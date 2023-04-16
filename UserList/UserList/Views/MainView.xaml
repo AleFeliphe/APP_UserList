@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:UserList"
+             xmlns:converters="clr-namespace:UserList.Converters"
+             x:Class="UserList.Views.MainView" 
+             Title="Cadastro">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StatusColorConverter 
+                x:Key="statusColorConverter">
+            </converters:StatusColorConverter>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Barra de menu -->
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddItem}" />
+    </ContentPage.ToolbarItems>
+
+    <!-- Listagem e Grid -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button 
+            Style="{StaticResource FilterButton}"
+            BackgroundColor="{Binding ShowAll, Converter={StaticResource statusColorConverter}}"
+            TextColor="Black"
+            Text="{Binding FilterText, StringFormat='Filtro: {0}'}" 
+            Command="{Binding ToggleFilter}">
+
+            <Button.Triggers>
+                <DataTrigger TargetType="Button" Binding="{Binding ShowAll}" Value="true">
+                    <Setter Property="TextColor" Value="White"/>
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+
+        <ListView x:Name="ItemsListView" SelectedItem="{Binding SelectedItem}" 
+            Grid.Row="1" RowHeight="150" ItemsSource="{Binding Items}">
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="{Binding StatusText}"
+                                      Command="{Binding ToggleCompleted}"/>
+                        </ViewCell.ContextActions>
+
+                        <Grid Padding="15,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <BoxView Grid.RowSpan="1" 
+                                     BackgroundColor="{Binding Item.Completed, Converter={StaticResource statusColorConverter}}"/>
+                            <Label Grid.Column="1"    
+                                   Grid.Row="1"
+                                   Text="{Binding Item.Name}" 
+                                   FontSize="Medium" />
+                            <Label Grid.Column="2"
+                                   Grid.Row="1"
+                                   Text="{Binding Item.Surname}" 
+                                   FontSize="Medium" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="2"
+                                   Text="{Binding Item.Generous}" 
+                                   FontSize="Small" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="3"
+                                   Text="{Binding Item.Adress}" 
+                                   FontSize="Small" />
+                            <Label Grid.Column="2"
+                                   Grid.Row="3"
+                                   Text="{Binding Item.Country}" 
+                                   FontSize="Small" />
+                            <Label Grid.Column="1" 
+                                   Text="{Binding Item.Due, StringFormat='{0:dd/MM/yyyy}'}" 
+                                   Grid.Row="4" 
+                                   FontSize="Micro" />
+                            <Label Grid.Column="1" 
+                                   Grid.Row="1" 
+                                   HorizontalTextAlignment="End" 
+                                   Text="Finalizado" 
+                                   IsVisible="{Binding Item.Completed}"
+                                   FontSize="Micro"
+                                   TextColor="{StaticResource CompletedColor}"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </Grid>
+
+</ContentPage>
